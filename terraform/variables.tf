@@ -57,12 +57,12 @@ variable "operators" {
       values_file  = "opensearch.yaml"
     },
     {
-      name         = "strimzi-operator"
+      name         = "kafka-operator"
       repository   = "https://strimzi.io/charts/"
       chart        = "strimzi-kafka-operator"
-      namespace    = "strimzi-operator"
+      namespace    = "kafka-operator"
       version      = "0.38.0"
-      values_file  = "strimzi.yaml"
+      values_file  = "kafka.yaml"
     },
     {
       name         = "rabbitmq-operator"
