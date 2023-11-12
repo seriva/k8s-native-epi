@@ -54,6 +54,22 @@ variable "operators" {
       namespace    = "strimzi-operator"
       version      = "0.38.0"
       values_file  = "strimzi.yaml"
+    },
+    {
+      name         = "rabbitmq-operator"
+      repository   = "https://charts.bitnami.com/bitnami"
+      chart        = "rabbitmq-cluster-operator"
+      namespace    = "rabbitmq-operator"
+      version      = "3.1.0"
+      values_file  = "rabbitmq.yaml"
+    },
+    {
+      name         = "postgresql-operator"
+      repository   = "https://cloudnative-pg.github.io/charts"
+      chart        = "cloudnative-pg"
+      namespace    = "postgresql-operator"
+      version      = "0.19.1"
+      values_file  = "postgresql.yaml"
     }
   ]
 }

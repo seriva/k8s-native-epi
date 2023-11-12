@@ -2,7 +2,10 @@
 
 Project to create a K8s-native version of [Epiphany](https://github.com/hitachienergy/epiphany) using the [operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
 
-## Prerequisites
+## Pre-requisites
+
+Terraform
+Docker
 
 When running Rancher-Desktop run to make sure to set vm.max_map_count: https://docs.rancherdesktop.io/how-to-guides/increasing-open-file-limit/
 
@@ -10,13 +13,13 @@ When running Rancher-Desktop run to make sure to set vm.max_map_count: https://d
 
 To replace the existing Epiphany components we are using operators. Operators give us the ability to easily create and configure the components using custom K8s CRDs.
 
-| Epiphany Component  | Replacement Operator                                       |
+| Epiphany Component  | Replacement Operator/Tool                                  |
 | ------------------- | -----------------------------------------------------------|
 | Monitoring          | https://github.com/prometheus-operator/prometheus-operator |
 | Logging             | https://github.com/Opster/opensearch-k8s-operator          |
 | Kafka               | https://github.com/strimzi/strimzi-kafka-operator          |
 | RabbitMQ            | https://github.com/rabbitmq/cluster-operator               |
-| PostgreSQL          | https://github.com/CrunchyData/postgres-operator           |
+| PostgreSQL          | https://github.com/cloudnative-pg/cloudnative-pg           |
 
 ### Monitoring
 
