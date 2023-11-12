@@ -89,7 +89,7 @@ variable "manifests" {
   description = "Component manifests"
   type = list
   default = [
-    #"logging-namespace.yaml",
-    #"logging-opensearch.yaml"
+    #"opensearch-namespace.yaml",
+    #"opensearch-cluster.yaml"
   ]
 }

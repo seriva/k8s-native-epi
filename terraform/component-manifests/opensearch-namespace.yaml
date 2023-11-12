@@ -1,6 +1,6 @@
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: logging
+  name: opensearch
   labels:
     name: opensearch
