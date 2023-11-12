@@ -4,8 +4,8 @@ Project to create a K8s-native version of [Epiphany](https://github.com/hitachie
 
 ## Pre-requisites
 
-Terraform
-Docker
+- Terraform
+- Docker
 
 When running Rancher-Desktop run to make sure to set vm.max_map_count: https://docs.rancherdesktop.io/how-to-guides/increasing-open-file-limit/
 
@@ -13,27 +13,22 @@ When running Rancher-Desktop run to make sure to set vm.max_map_count: https://d
 
 To replace the existing Epiphany components we are using operators. Operators give us the ability to easily create and configure the components using custom K8s CRDs.
 
-| Epiphany Component  | Replacement Operator/Tool                                  |
-| ------------------- | -----------------------------------------------------------|
-| Monitoring          | https://github.com/prometheus-operator/prometheus-operator |
-| Logging             | https://github.com/Opster/opensearch-k8s-operator          |
-| Kafka               | https://github.com/strimzi/strimzi-kafka-operator          |
-| RabbitMQ            | https://github.com/rabbitmq/cluster-operator               |
-| PostgreSQL          | https://github.com/cloudnative-pg/cloudnative-pg           |
+| Epiphany Component  | Replacement Tools + Operator                                       |
+| ------------------- | -------------------------------------------------------------------|
+| Monitoring          | https://github.com/prometheus-operator/prometheus-operator         |
+| Logging             | https://github.com/grafana/helm-charts/tree/main/charts/loki-stack |
+| Kafka               | https://github.com/strimzi/strimzi-kafka-operator                  |
+| RabbitMQ            | https://github.com/rabbitmq/cluster-operator                       |
+| PostgreSQL          | https://github.com/cloudnative-pg/cloudnative-pg                   |
+| Opensearch          | https://github.com/Opster/opensearch-k8s-operator                  |
 
-### Monitoring
+### Monitoring and Logging
 
 To access Grafana and Prometheus:
 
 ```shell
-kubectl port-forward svc/prometheus-operator-grafana 8080:80 -n prometheus-operator
-kubectl port-forward svc/prometheus-operated 9090 -n prometheus-operator
+kubectl port-forward svc/monitoring-prometheus-grafana 8080:80 -n monitoring
+kubectl port-forward svc/prometheus-operated 9090 -n monitoring
 ```
 
-### Logging
-
-To access the dashboard:
-
-```shell
-kubectl port-forward svc/logging-dashboards 5601 -n logging
-```
+Loki datasource: http://logging-loki.logging.svc.cluster.local:3100

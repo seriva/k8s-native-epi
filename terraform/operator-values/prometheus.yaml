@@ -2,3 +2,12 @@
 
 grafana:
   adminPassword: kaasbal
+  #rbac:
+  #  pspEnabled: false # for loki-stack.
+  persistence:
+    type: pvc
+    enabled: true
+    storageClassName: local-path
+    accessModes:
+      - ReadWriteOnce
+    size: 5Gi

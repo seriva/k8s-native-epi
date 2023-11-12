@@ -32,13 +32,22 @@ variable "operators" {
   }))
   default = [
     {
-      name         = "prometheus-operator"
+      name         = "monitoring-prometheus"
       repository   = "https://prometheus-community.github.io/helm-charts"
       chart        = "kube-prometheus-stack"
-      namespace    = "prometheus-operator"
+      namespace    = "monitoring"
       version      = "52.1.0"
       values_file  = "prometheus.yaml"
     },
+    {
+      name         = "logging-loki"
+      repository   = "https://grafana.github.io/helm-charts"
+      chart        = "loki-stack"
+      namespace    = "logging"
+      version      = "2.9.11"
+      values_file  = "loki.yaml"
+    },
+
     {
       name         = "opensearch-operator"
       repository   = "https://opster.github.io/opensearch-k8s-operator/"
@@ -80,7 +89,7 @@ variable "manifests" {
   description = "Component manifests"
   type = list
   default = [
-    "logging-namespace.yaml",
-    "logging-opensearch.yaml"
+    #"logging-namespace.yaml",
+    #"logging-opensearch.yaml"
   ]
 }
