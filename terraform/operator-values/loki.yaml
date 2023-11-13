@@ -1,7 +1,8 @@
 # https://github.com/grafana/helm-charts/blob/main/charts/loki-stack/values.yaml
 
 loki:
+  isDefault: false
   persistence:
     enabled: true
     storageClassName: local-path
-    size: 5Gi
+    size: 1Gi

@@ -35,7 +35,7 @@ variable "operators" {
       name         = "monitoring-prometheus"
       repository   = "https://prometheus-community.github.io/helm-charts"
       chart        = "kube-prometheus-stack"
-      namespace    = "monitoring"
+      namespace    = "monitoring-logging"
       version      = "52.1.0"
       values_file  = "prometheus.yaml"
     },
@@ -43,11 +43,10 @@ variable "operators" {
       name         = "logging-loki"
       repository   = "https://grafana.github.io/helm-charts"
       chart        = "loki-stack"
-      namespace    = "logging"
+      namespace    = "monitoring-logging"
       version      = "2.9.11"
       values_file  = "loki.yaml"
     },
-
     {
       name         = "opensearch-operator"
       repository   = "https://opster.github.io/opensearch-k8s-operator/"
@@ -89,7 +88,7 @@ variable "manifests" {
   description = "Component manifests"
   type = list
   default = [
-    "opensearch-namespace.yaml",
-    "opensearch-cluster.yaml"
+    //"opensearch-namespace.yaml",
+    //"opensearch-cluster.yaml"
   ]
 }
