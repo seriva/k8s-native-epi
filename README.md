@@ -14,7 +14,7 @@ For the opensearch component one needs to set the vm.max_map_count to 262144:
 - On Rancher-Desktop follow [this](https://docs.rancherdesktop.io/how-to-guides/increasing-open-file-limit/)
 - On Docker-Desktop add `kernelCommandLine = sysctl.vm.max_map_count=262144` to the `.wslconfig` config file.
 
-## Operators
+## Components and Operators
 
 To replace the existing Epiphany components we are using operators. Operators give us the ability to easily create and configure the Epiphany components using custom K8s [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) resources.
 
@@ -26,6 +26,10 @@ To replace the existing Epiphany components we are using operators. Operators gi
 | RabbitMQ            | https://github.com/rabbitmq/cluster-operator                       |
 | PostgreSQL          | https://github.com/cloudnative-pg/cloudnative-pg                   |
 | Opensearch          | https://github.com/Opster/opensearch-k8s-operator                  |
+
+## Confguraitons
+
+TODO
 
 ## Deployment
 
