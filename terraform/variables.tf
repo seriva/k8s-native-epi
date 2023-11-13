@@ -88,7 +88,13 @@ variable "manifests" {
   description = "Component manifests"
   type = list
   default = [
-    //"opensearch-namespace.yaml",
-    //"opensearch-cluster.yaml"
+    "opensearch-namespace.yaml",
+    "opensearch-cluster.yaml",
+
+    //"kafka-namespace.yaml",
+    //"kafka-cluster.yaml"
+
+    // "rabbitmq-namespace.yaml",
+    // "rabbitmq-cluster.yaml"
   ]
 }

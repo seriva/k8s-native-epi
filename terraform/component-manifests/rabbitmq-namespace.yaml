@@ -1,0 +1,17 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rabbitmq
+  namespace: rabbitmq
+spec:
+  replicas: 3
+  resources:
+    requests:
+      cpu: 4
+      memory: 2Gi
+    limits:
+      cpu: 4
+      memory: 2Gi
+  persistence:
+    storageClassName: ssd
+    storage: "5Gi"
