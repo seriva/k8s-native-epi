@@ -82,7 +82,6 @@ variable "operators" {
   ]
 }
 
-
 # components manifests
 variable "manifests" {
   description = "Component manifests"
@@ -94,7 +93,10 @@ variable "manifests" {
     //"kafka-namespace.yaml",
     //"kafka-cluster.yaml"
 
-    // "rabbitmq-namespace.yaml",
-    // "rabbitmq-cluster.yaml"
+    "rabbitmq-namespace.yaml",
+    "rabbitmq-cluster.yaml",
+
+    "postgresql-namespace.yaml",
+    "postgresql-cluster.yaml"
   ]
 }
