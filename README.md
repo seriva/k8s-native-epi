@@ -32,3 +32,4 @@ kubectl port-forward svc/prometheus-operated 9090 -n monitoring
 ```
 
 Loki datasource: http://logging-loki.logging.svc.cluster.local:3100
+Loki K8s Dashboard: 14055, 13639, 15141
