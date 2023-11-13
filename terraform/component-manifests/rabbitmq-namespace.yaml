@@ -13,5 +13,5 @@ spec:
       cpu: 4
       memory: 2Gi
   persistence:
-    storageClassName: ssd
+    storageClassName: local-path
     storage: "5Gi"
