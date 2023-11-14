@@ -35,7 +35,7 @@ variable "operators" {
       name         = "monitoring-prometheus"
       repository   = "https://prometheus-community.github.io/helm-charts"
       chart        = "kube-prometheus-stack"
-      namespace    = "monitoring-logging"
+      namespace    = "observability"
       version      = "52.1.0"
       values_file  = "prometheus.yaml"
     },
@@ -43,7 +43,7 @@ variable "operators" {
       name         = "logging-loki"
       repository   = "https://grafana.github.io/helm-charts"
       chart        = "loki-stack"
-      namespace    = "monitoring-logging"
+      namespace    = "observability"
       version      = "2.9.11"
       values_file  = "loki.yaml"
     },

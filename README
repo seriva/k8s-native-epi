@@ -44,13 +44,13 @@ The solution uses the same Prometheus+Grafana+Alertmanager stack for monitoring 
 
 ```shell
 #User/PW: admin/kaasbal
-kubectl port-forward svc/monitoring-prometheus-grafana 8080:80 -n monitoring-logging
-kubectl port-forward svc/prometheus-operated 9090 -n monitoring-logging
+kubectl port-forward svc/monitoring-prometheus-grafana 8080:80 -n observability
+kubectl port-forward svc/prometheus-operated 9090 -n observability
 ```
 
 For logging, the Epiphany Opensearch stack was swapped out for [Loki](https://grafana.com/oss/loki/) as this integrates nicely with Grafana giving us one place to view both logging and monitoring. Few notes:
 
-- Loki datasource for Grafana if missing: http://logging-loki.monitoring-logging.svc.cluster.local:3100
+- Loki datasource for Grafana if missing: http://logging-loki.observability.svc.cluster.local:3100
 - Usefull Loki dashboard: 13639, 15141, 14055
 
 ## Opensearch
