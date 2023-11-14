@@ -4,6 +4,18 @@ metadata:
   name: postgresql
   namespace: postgresql
 spec:
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: postgresql-secret
+  monitoring:
+    enablePodMonitor: true
+  bootstrap:
+    initdb: # Deploying a new cluster
+      database: appdatabase
+      owner: app
+      secret:
+        name: app-secret
   instances: 3
   storage:
+    storageClass: local-path
     size: 5Gi

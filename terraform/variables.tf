@@ -56,12 +56,12 @@ variable "operators" {
       values_file  = "opensearch.yaml"
     },
     {
-      name         = "kafka-operator"
-      repository   = "https://strimzi.io/charts/"
-      chart        = "strimzi-kafka-operator"
-      namespace    = "kafka-operator"
-      version      = "0.38.0"
-      values_file  = "kafka.yaml"
+      name         = "postgresql-operator"
+      repository   = "https://cloudnative-pg.github.io/charts"
+      chart        = "cloudnative-pg"
+      namespace    = "postgresql-operator"
+      version      = "0.19.1"
+      values_file  = "postgresql.yaml"
     },
     {
       name         = "rabbitmq-operator"
@@ -72,12 +72,12 @@ variable "operators" {
       values_file  = "rabbitmq.yaml"
     },
     {
-      name         = "postgresql-operator"
-      repository   = "https://cloudnative-pg.github.io/charts"
-      chart        = "cloudnative-pg"
-      namespace    = "postgresql-operator"
-      version      = "0.19.1"
-      values_file  = "postgresql.yaml"
+      name         = "kafka-operator"
+      repository   = "https://strimzi.io/charts/"
+      chart        = "strimzi-kafka-operator"
+      namespace    = "kafka-operator"
+      version      = "0.38.0"
+      values_file  = "kafka.yaml"
     }
   ]
 }
@@ -90,13 +90,19 @@ variable "manifests" {
     "opensearch-namespace.yaml",
     "opensearch-cluster.yaml",
 
-    //"kafka-namespace.yaml",
-    //"kafka-cluster.yaml"
+    "postgresql-namespace.yaml",
+    "postgresql-secret.yaml",
+    "postgresql-app-secret.yaml",
+    "postgresql-cluster.yaml",
+    "postgresql-pgadmin-secret.yaml",
+    "postgresql-pgadmin-service.yaml",
+    "postgresql-pgadmin-config.yaml",
+    "postgresql-pgadmin.yaml",
 
     "rabbitmq-namespace.yaml",
     "rabbitmq-cluster.yaml",
 
-    "postgresql-namespace.yaml",
-    "postgresql-cluster.yaml"
+    //"kafka-namespace.yaml",
+    //"kafka-cluster.yaml"
   ]
 }

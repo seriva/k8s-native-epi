@@ -22,12 +22,12 @@ To replace the existing Epiphany components we are using operators. Operators gi
 | ------------------- | -------------------------------------------------------------------|
 | Monitoring          | https://github.com/prometheus-operator/prometheus-operator         |
 | Logging             | https://github.com/grafana/helm-charts/tree/main/charts/loki-stack |
-| Kafka               | https://github.com/strimzi/strimzi-kafka-operator                  |
-| RabbitMQ            | https://github.com/rabbitmq/cluster-operator                       |
-| PostgreSQL          | https://github.com/cloudnative-pg/cloudnative-pg                   |
 | Opensearch          | https://github.com/Opster/opensearch-k8s-operator                  |
+| PostgreSQL          | https://github.com/cloudnative-pg/cloudnative-pg                   |
+| RabbitMQ            | https://github.com/rabbitmq/cluster-operator                       |
+| Kafka               | https://github.com/strimzi/strimzi-kafka-operator                  |
 
-## Confguraitons
+## Confgurations
 
 TODO
 
@@ -43,20 +43,22 @@ terraform apply
 The solution uses the same Prometheus+Grafana+Alertmanager stack for monitoring as Epiphany, only now deployed as an K8s operator. To access Grafana and Prometheus:
 
 ```shell
-kubectl port-forward svc/monitoring-prometheus-grafana 8080:80 -n monitoring
-kubectl port-forward svc/prometheus-operated 9090 -n monitoring
+#User/PW: admin/kaasbal
+kubectl port-forward svc/monitoring-prometheus-grafana 8080:80 -n monitoring-logging
+kubectl port-forward svc/prometheus-operated 9090 -n monitoring-logging
 ```
 
 For logging, the Epiphany Opensearch stack was swapped out for [Loki](https://grafana.com/oss/loki/) as this integrates nicely with Grafana giving us one place to view both logging and monitoring. Few notes:
 
-- Loki datasource for Grafana if missing: http://logging-loki.logging.svc.cluster.local:3100
+- Loki datasource for Grafana if missing: http://logging-loki.monitoring-logging.svc.cluster.local:3100
 - Usefull Loki dashboard: 13639, 15141, 14055
 
 ## Opensearch
 
- To access Opensearch Dashboard and API:
+ To access Opensearch Dashboard and Opensearch API:
 
 ```shell
+#User/PW: admin/admin
 kubectl port-forward svc/opensearch-dashboards 5601 -n opensearch
 kubectl port-forward svc/opensearch 9200 -n opensearch
 ```
@@ -66,3 +68,22 @@ Use the following to check the clusters health:
 ```shell
 curl --insecure -X GET "https://admin:admin@localhost:9200/_cluster/health?wait_for_status=yellow&timeout=50s&pretty"
 ```
+
+## Postgress
+
+To access the pgAdmin:
+
+```shell
+#User/PW: admin@admin.com/kaasbal
+kubectl port-forward svc/pgadmin-service 8081:80 -n postgresql
+```
+
+Access to database server: `kaasbal`
+
+## RabbitMQ
+
+TODO
+
+## Kafka
+
+TODO
