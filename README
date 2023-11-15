@@ -41,17 +41,13 @@ terraform apply
 
 ### Monitoring and Logging
 
-The solution uses the same Prometheus+Grafana+Alertmanager stack for monitoring as Epiphany, only now deployed as an K8s operator. To access Grafana and Prometheus:
+The solution uses the same Prometheus+Grafana+Alertmanager stack for monitoring as Epiphany, only now deployed as an K8s operator. For logging, the Epiphany Opensearch stack was swapped out for [Loki](https://grafana.com/oss/loki/) as this integrates nicely with Grafana giving us one place to view both logging and monitoring. To access Grafana and Prometheus:
 
 ```shell
 #User/PW: admin/kaasbal
 kubectl port-forward svc/monitoring-prometheus-grafana 8080:80 -n observability
 kubectl port-forward svc/prometheus-operated 9090 -n observability
 ```
-
-For logging, the Epiphany Opensearch stack was swapped out for [Loki](https://grafana.com/oss/loki/) as this integrates nicely with Grafana giving us one place to view both logging and monitoring. Few notes:
-
-- Usefull Loki dashboard: 13639, 15141, 14055
 
 ### Opensearch
 
