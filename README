@@ -6,19 +6,19 @@ For now it focusses on a local stack using [K3s](https://k3s.io/) for K8s bootst
 
 ## Pre-requisites
 
-- Terraform 1.6.3
+- Terraform 1.6.3+
 - Docker, recommanded [Docker-Desktop](https://www.docker.com/products/docker-desktop/) or [Rancher-Desktop](https://rancherdesktop.io/)
 
 For the opensearch component one needs to set the vm.max_map_count to 262144:
 
 - On Rancher-Desktop follow [this](https://docs.rancherdesktop.io/how-to-guides/increasing-open-file-limit/)
-- On Docker-Desktop add `kernelCommandLine = sysctl.vm.max_map_count=262144` to the `.wslconfig` config file.
+- On Docker-Desktop add `kernelCommandLine = sysctl.vm.max_map_count=262144` to the `.wslconfig` config file and restart.
 
 ## Components and Operators
 
-To replace the existing Epiphany components we are using operators. Operators give us the ability to easily create and configure the Epiphany components using custom K8s [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) resources.
+To replace the existing Epiphany components we are using operators. Operators give us the ability to easily create/configure/manage the Epiphany components using custom K8s [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) resources.
 
-| Epiphany Component  | Replacement Tools + Operator                                       |
+| Epiphany Component  | Operator                                                           |
 | ------------------- | -------------------------------------------------------------------|
 | Monitoring          | https://github.com/prometheus-operator/prometheus-operator         |
 | Logging             | https://github.com/grafana/helm-charts/tree/main/charts/loki-stack |
@@ -71,7 +71,7 @@ curl --insecure -X GET "https://admin:admin@localhost:9200/_cluster/health?wait_
 
 ## Postgress
 
-To access the pgAdmin:
+To access pgAdmin:
 
 ```shell
 #User/PW: admin@admin.com/kaasbal

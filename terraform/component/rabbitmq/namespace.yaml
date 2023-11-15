@@ -1,17 +1,6 @@
-apiVersion: rabbitmq.com/v1beta1
-kind: RabbitmqCluster
+kind: Namespace
+apiVersion: v1
 metadata:
   name: rabbitmq
-  namespace: rabbitmq
-spec:
-  replicas: 3
-  resources:
-    requests:
-      cpu: 4
-      memory: 2Gi
-    limits:
-      cpu: 4
-      memory: 2Gi
-  persistence:
-    storageClassName: local-path
-    storage: "5Gi"
+  labels:
+    name: rabbitmq
