@@ -21,7 +21,7 @@ variable "k3s_cluster" {
 
 # operator configuration
 variable "operators" {
-  description = "Operator configuration"
+  description = "Operator configurations"
   type = list(object({
     name        = string
     namespace   = string
@@ -56,12 +56,12 @@ variable "operators" {
       values_file  = "opensearch.yaml"
     },
     {
-      name         = "postgresql-operator"
+      name         = "cnpg-operator"
       repository   = "https://cloudnative-pg.github.io/charts"
       chart        = "cloudnative-pg"
-      namespace    = "postgresql-operator"
+      namespace    = "cnpg-operator"
       version      = "0.19.1"
-      values_file  = "postgresql.yaml"
+      values_file  = "cnpg.yaml"
     },
     {
       name         = "rabbitmq-operator"
@@ -72,12 +72,12 @@ variable "operators" {
       values_file  = "rabbitmq.yaml"
     },
     {
-      name         = "kafka-operator"
+      name         = "strimzi-operator"
       repository   = "https://strimzi.io/charts/"
       chart        = "strimzi-kafka-operator"
-      namespace    = "kafka-operator"
+      namespace    = "strimzi-operator"
       version      = "0.38.0"
-      values_file  = "kafka.yaml"
+      values_file  = "strimzi.yaml"
     }
   ]
 }
@@ -87,22 +87,22 @@ variable "manifests" {
   description = "Component manifests"
   type = list
   default = [
-    "opensearch-namespace.yaml",
-    "opensearch-cluster.yaml",
+    "opensearch/namespace.yaml",
+    "opensearch/cluster.yaml",
 
-    "postgresql-namespace.yaml",
-    "postgresql-secret.yaml",
-    "postgresql-app-secret.yaml",
-    "postgresql-cluster.yaml",
-    "postgresql-pgadmin-secret.yaml",
-    "postgresql-pgadmin-service.yaml",
-    "postgresql-pgadmin-config.yaml",
-    "postgresql-pgadmin.yaml",
+    "postgresql/namespace.yaml",
+    "postgresql/secret.yaml",
+    "postgresql/app-secret.yaml",
+    "postgresql/cluster.yaml",
+    "postgresql/pgadmin-secret.yaml",
+    "postgresql/pgadmin-service.yaml",
+    "postgresql/pgadmin-config.yaml",
+    "postgresql/pgadmin.yaml",
 
-    "rabbitmq-namespace.yaml",
-    "rabbitmq-cluster.yaml",
+    "rabbitmq/namespace.yaml",
+    "rabbitmq/cluster.yaml",
 
-    //"kafka-namespace.yaml",
-    //"kafka-cluster.yaml"
+    //"kafka/namespace.yaml",
+    //"kafka/cluster.yaml"
   ]
 }
