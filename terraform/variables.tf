@@ -87,9 +87,11 @@ variable "manifests" {
   description = "Component manifests"
   type = list
   default = [
+    # opensearch cluster
     "opensearch/namespace.yaml",
     "opensearch/cluster.yaml",
 
+    # postgresql cluster
     "postgresql/namespace.yaml",
     "postgresql/secret.yaml",
     "postgresql/app-secret.yaml",
@@ -99,16 +101,22 @@ variable "manifests" {
     "postgresql/pgadmin-config.yaml",
     "postgresql/pgadmin.yaml",
 
+    # rabbitmq cluster
     "rabbitmq/namespace.yaml",
     "rabbitmq/cluster.yaml",
 
-    //"kafka/namespace.yaml",
-    //"kafka/cluster.yaml",
+    # kafka cluster
+    "kafka/namespace.yaml",
+    "kafka/cluster.yaml",
 
+    # Additional monitoring, alerts and dashboards for observability.
     "observability/cnpg-alerts.yaml",
     "observability/cnpg-dashboard.yaml",
     "observability/loki-dashboard-monitoring.yaml",
     "observability/loki-dashboard-k8s-logs.yaml",
-    "observability/loki-dashboard-apps-logs.yaml"
+    "observability/loki-dashboard-apps-logs.yaml",
+    "observability/rabbitmq-service-monitor.yaml",
+    //"observability/rabbitmq-alerts.yaml",
+    "observability/rabbitmq-dashboard-overview.yaml"
   ]
 }
