@@ -103,6 +103,12 @@ variable "manifests" {
     "rabbitmq/cluster.yaml",
 
     //"kafka/namespace.yaml",
-    //"kafka/cluster.yaml"
+    //"kafka/cluster.yaml",
+
+    "observability/cnpg-alerts.yaml",
+    "observability/cnpg-dashboard.yaml",
+    "observability/loki-dashboard-monitoring.yaml",
+    "observability/loki-dashboard-k8s-logs.yaml",
+    "observability/loki-dashboard-apps-logs.yaml"
   ]
 }

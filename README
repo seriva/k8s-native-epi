@@ -2,6 +2,17 @@
 
 Sample project to create a K8s-native version of [Epiphany](https://github.com/hitachienergy/epiphany) using the [operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
 
+Existing Epiphany components are replaced using the following operators. Operators give us the ability to easily create/configure/manage the Epiphany components using custom K8s [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) resources.
+
+| Epiphany Component  | Operator                                                           |
+| ------------------- | -------------------------------------------------------------------|
+| Monitoring          | https://github.com/prometheus-operator/prometheus-operator         |
+| Logging             | https://github.com/grafana/helm-charts/tree/main/charts/loki-stack |
+| Opensearch          | https://github.com/Opster/opensearch-k8s-operator                  |
+| PostgreSQL          | https://github.com/cloudnative-pg/cloudnative-pg                   |
+| RabbitMQ            | https://github.com/rabbitmq/cluster-operator                       |
+| Kafka               | https://github.com/strimzi/strimzi-kafka-operator                  |
+
 For now it focusses on a local stack using [K3s](https://k3s.io/) for K8s bootstrapped with [k3d](https://k3d.io/). However it can be easily modified to use other (managed) versions of K8s like AKS or EKS.
 
 ## Pre-requisites
@@ -14,31 +25,21 @@ For the opensearch component one needs to set the vm.max_map_count to 262144:
 - On Rancher-Desktop follow [this](https://docs.rancherdesktop.io/how-to-guides/increasing-open-file-limit/)
 - On Docker-Desktop add `kernelCommandLine = sysctl.vm.max_map_count=262144` to the `.wslconfig` config file and restart.
 
-## Components and Operators
+## Confgurations and deployment
 
-To replace the existing Epiphany components we are using operators. Operators give us the ability to easily create/configure/manage the Epiphany components using custom K8s [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) resources.
+TODO: Configuration
 
-| Epiphany Component  | Operator                                                           |
-| ------------------- | -------------------------------------------------------------------|
-| Monitoring          | https://github.com/prometheus-operator/prometheus-operator         |
-| Logging             | https://github.com/grafana/helm-charts/tree/main/charts/loki-stack |
-| Opensearch          | https://github.com/Opster/opensearch-k8s-operator                  |
-| PostgreSQL          | https://github.com/cloudnative-pg/cloudnative-pg                   |
-| RabbitMQ            | https://github.com/rabbitmq/cluster-operator                       |
-| Kafka               | https://github.com/strimzi/strimzi-kafka-operator                  |
-
-## Confgurations
-
-TODO
-
-## Deployment
+To deploy k8s-native-epi only running Terraform is needed:
 
 ```shell
+cd terraform
 terraform init
 terraform apply
 ```
 
-## Monitoring and Logging
+## Components
+
+### Monitoring and Logging
 
 The solution uses the same Prometheus+Grafana+Alertmanager stack for monitoring as Epiphany, only now deployed as an K8s operator. To access Grafana and Prometheus:
 
@@ -50,10 +51,9 @@ kubectl port-forward svc/prometheus-operated 9090 -n observability
 
 For logging, the Epiphany Opensearch stack was swapped out for [Loki](https://grafana.com/oss/loki/) as this integrates nicely with Grafana giving us one place to view both logging and monitoring. Few notes:
 
-- Loki datasource for Grafana if missing: http://logging-loki.observability.svc.cluster.local:3100
 - Usefull Loki dashboard: 13639, 15141, 14055
 
-## Opensearch
+### Opensearch
 
  To access Opensearch Dashboard and Opensearch API:
 
@@ -69,7 +69,7 @@ Use the following to check the clusters health:
 curl --insecure -X GET "https://admin:admin@localhost:9200/_cluster/health?wait_for_status=yellow&timeout=50s&pretty"
 ```
 
-## Postgress
+### Postgress
 
 To access pgAdmin:
 
@@ -80,10 +80,10 @@ kubectl port-forward svc/pgadmin-service 8081:80 -n postgresql
 
 Access to database server: `kaasbal`
 
-## RabbitMQ
+### RabbitMQ
 
 TODO
 
-## Kafka
+### Kafka
 
 TODO

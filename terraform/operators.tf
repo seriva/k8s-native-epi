@@ -9,7 +9,7 @@ resource "helm_release" "operators" {
   create_namespace = true
 
   values = [
-    templatefile("${path.module}/operators/${var.operators[count.index].values_file}", {})
+    file("${path.module}/operators/${var.operators[count.index].values_file}")
   ]
 
   depends_on       = [k3d_cluster.epiphany_cluster]
