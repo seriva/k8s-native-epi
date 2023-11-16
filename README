@@ -1,8 +1,8 @@
 # k8s-native-epi
 
-Sample project to create a K8s-native version of [Epiphany](https://github.com/hitachienergy/epiphany) using the [operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
+Project to create a K8s-native version of [Epiphany](https://github.com/hitachienergy/epiphany) using the [operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) for local development.
 
-Existing Epiphany components are replaced using the following operators. Operators give us the ability to easily create/configure/manage the Epiphany components using custom K8s [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) resources.
+Existing Epiphany components are replaced using the following operators. Operators give the ability to easily create/configure/manage the Epiphany components using custom K8s [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) resources.
 
 | Epiphany Component  | Operator                                                           |
 | ------------------- | -------------------------------------------------------------------|
@@ -15,10 +15,13 @@ Existing Epiphany components are replaced using the following operators. Operato
 
 For now it focusses on a local stack using [K3s](https://k3s.io/) for K8s bootstrapped with [k3d](https://k3d.io/). However it can be easily modified to use other (managed) versions of K8s like AKS or EKS.
 
+The whole project uses [Terraform](https://www.terraform.io/) with several providers to bootstrap and deploy the environment.
+
 ## Pre-requisites
 
-- Terraform 1.6.3+
+-[Terraform](https://www.terraform.io/) 1.6.3+
 - Docker, recommanded [Docker-Desktop](https://www.docker.com/products/docker-desktop/) or [Rancher-Desktop](https://rancherdesktop.io/)
+- Laptop with at least 32gb of ram to deploy the entire stack
 
 For the opensearch component one needs to set the vm.max_map_count to 262144:
 
@@ -27,9 +30,17 @@ For the opensearch component one needs to set the vm.max_map_count to 262144:
 
 ## Confgurations and deployment
 
-TODO: Configuration
+Configuration is done on 3 different levels.
 
-To deploy k8s-native-epi only running Terraform is needed:
+1. `terraform/variables.tf` has 3 variable definitions with defaults which can be used for in a custom `tfvars` file and is the basis for the Terraform deployment orchistration:
+    - `k3s_cluster`: describes the K3s cluster layout.
+    - `operators`: A list of Helm charts that represent the operators that will be installed.
+    - `components`: A list of K8s deployment files for the deployment of the Epiphany components using the [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) the operators provide.
+    Note: when `operators` are disabled, make sure to also disable the `components` K8s deployments that are dependent on the operators.
+2. `terraform/operators/*.*` contains the custom Helm configrations that can be applied the the operators. Every file contains a link to the full file of avalable configurations. Generally can be left as is.
+3. `terraform/components/*.*` contains the K8s deployments of the components. Use the above links in the table to the operator documentation to see how to configure each [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
+
+To deploy the `k8s-native-epi` environment run the following commands:
 
 ```shell
 cd terraform
@@ -48,6 +59,8 @@ The solution uses the same Prometheus+Grafana+Alertmanager stack for monitoring 
 kubectl port-forward svc/monitoring-prometheus-grafana 8080:80 -n observability
 kubectl port-forward svc/prometheus-operated 9090 -n observability
 ```
+
+Out of the box, metrics and rules for all components are integrated with Prometheus and several dashboards for K8s, node-exporter, logging, Postgresql, Kafka and RabbitMQ are included with Grafana for visualization.
 
 ### Opensearch
 

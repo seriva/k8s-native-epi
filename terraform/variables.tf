@@ -83,7 +83,7 @@ variable "operators" {
 }
 
 # components manifests
-variable "manifests" {
+variable "components" {
   description = "Component manifests"
   type = list
   default = [

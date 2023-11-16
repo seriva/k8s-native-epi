@@ -1,5 +1,5 @@
 resource "kubectl_manifest" "components" {
-  for_each = toset(var.manifests)
+  for_each = toset(var.components)
 
   yaml_body = file("${path.module}/components/${each.value}")
 
