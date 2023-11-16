@@ -107,15 +107,21 @@ variable "manifests" {
 
     # kafka cluster
     "kafka/cluster.yaml",
+    "kafka/metrics.yaml",
 
     # Additional monitoring, alerts and dashboards for observability.
-    "observability/cnpg-alerts.yaml",
+    "observability/cnpg-prometheus-rules.yaml",
     "observability/cnpg-dashboard.yaml",
     "observability/loki-dashboard-monitoring.yaml",
     "observability/loki-dashboard-k8s-logs.yaml",
     "observability/loki-dashboard-apps-logs.yaml",
     "observability/rabbitmq-service-monitor.yaml",
-    //"observability/rabbitmq-alerts.yaml",
-    "observability/rabbitmq-dashboard-overview.yaml"
+    //"observability/rabbitmq-prometheus-rules.yaml",
+    "observability/rabbitmq-dashboard-overview.yaml",
+    "observability/kafka-prometheus-rules.yaml",
+    "observability/kafka-resources-metrics.yaml",
+    "observability/kafka-entity-operator-metrics.yaml",
+    "observability/kafka-cluster-operator-metrics.yaml",
+    "observability/kafka-dashboard.yaml"
   ]
 }
