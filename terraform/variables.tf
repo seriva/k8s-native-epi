@@ -75,7 +75,7 @@ variable "operators" {
       name         = "strimzi-operator"
       repository   = "https://strimzi.io/charts/"
       chart        = "strimzi-kafka-operator"
-      namespace    = "strimzi-operator"
+      namespace    = "kafka"
       version      = "0.38.0"
       values_file  = "strimzi.yaml"
     }
@@ -106,7 +106,6 @@ variable "manifests" {
     "rabbitmq/cluster.yaml",
 
     # kafka cluster
-    "kafka/namespace.yaml",
     "kafka/cluster.yaml",
 
     # Additional monitoring, alerts and dashboards for observability.
