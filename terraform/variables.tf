@@ -108,6 +108,7 @@ variable "components" {
     # kafka cluster
     "kafka/cluster.yaml",
     "kafka/metrics.yaml",
+    "kafka/topic.yaml",
 
     # Additional monitoring, alerts and dashboards for observability.
     "observability/cnpg-prometheus-rules.yaml",

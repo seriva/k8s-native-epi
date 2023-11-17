@@ -17,7 +17,7 @@ For now it focusses on a local stack using [K3s](https://k3s.io/) for K8s bootst
 
 The whole project uses [Terraform](https://www.terraform.io/) with several providers to bootstrap and deploy the environment.
 
-## Pre-requisites
+## Prerequisites
 
 -[Terraform](https://www.terraform.io/) 1.6.3+
 - Docker, recommanded [Docker-Desktop](https://www.docker.com/products/docker-desktop/) or [Rancher-Desktop](https://rancherdesktop.io/)
@@ -64,7 +64,7 @@ Out of the box, metrics and rules for all components are integrated with Prometh
 
 ### Opensearch
 
- To access Opensearch Dashboard and Opensearch API:
+To access Opensearch Dashboard and Opensearch API:
 
 ```shell
 #User/PW: admin/admin
@@ -95,4 +95,20 @@ TODO
 
 ### Kafka
 
-TODO
+To run a consumer on the created test topic:
+
+```shell
+kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.38.0-kafka-3.6.0 --rm=true --restart=Never -- bin/kafka-console-consumer.sh --bootstrap-server svc/kafka-kafka-bootstrap:9092 --topic test-topic --from-beginning
+```
+
+To run a producer on the created test topic:
+
+```shell
+kubectl -n kafka run kafka-producer -ti --image=quay.io/strimzi/kafka:0.38.0-kafka-3.6.0 --rm=true --restart=Never -- bin/kafka-console-producer.sh --bootstrap-server svc/kafka-kafka-brokers:9092 --topic test-topic
+```
+
+Now you can add messages in the producer which should appear in the consumer. Alternatively you can also expose the broker service to publish messages to localhost:9092:
+
+```shell
+kubectl port-forward svc/kafka-kafka-bootstrap 9092 -n kafka
+```
