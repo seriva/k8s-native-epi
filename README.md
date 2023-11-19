@@ -95,6 +95,12 @@ TODO
 
 ### Kafka
 
+To access the Kafka-UI dashboard:
+
+```shell
+kubectl port-forward svc/kafka-ui-service 8082:8080 -n kafka
+```
+
 To run a consumer on the created test topic:
 
 ```shell
