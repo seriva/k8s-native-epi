@@ -2,7 +2,7 @@
 
 Project to create a K8s-native version of [Epiphany](https://github.com/hitachienergy/epiphany) using the [operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) for local development.
 
-Existing Epiphany components are replaced using the following operators. Operators give the ability to easily create/configure/manage the Epiphany components using custom K8s [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) resources.
+Existing Epiphany components are replaced using the following operators listed below. Operators give the ability to easily create/configure/manage the Epiphany components using custom K8s [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) resources.
 
 | Epiphany Component  | Operator                                                           |
 | ------------------- | -------------------------------------------------------------------|
@@ -32,11 +32,9 @@ For the opensearch component one needs to set the vm.max_map_count to 262144:
 
 Configuration is done on 3 different levels.
 
-1. `terraform/variables.tf` has 3 variable definitions with defaults which can be used for in a custom `tfvars` file and is the basis for the Terraform deployment orchistration:
+1. `terraform/variables.tf` has 2 variable definitions with defaults which can be used for in a custom `tfvars` file and is the basis for the Terraform deployment orchistration:
     - `k3s_cluster`: describes the K3s cluster layout.
-    - `operators`: A list of Helm charts that represent the operators that will be installed.
-    - `components`: A list of K8s deployment files for the deployment of the Epiphany components using the [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) the operators provide.
-    Note: when `operators` are disabled, make sure to also disable the `components` K8s deployments that are dependent on the operators.
+    - `operators`: A list of Helm charts that represent the operators that will be installed. It also contains the `components_files` list per operator which contains the K8s deployment files of the component using the [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) the operator provides.
 2. `terraform/operators/*.*` contains the custom Helm configrations that can be applied the the operators. Every file contains a link to the full file of avalable configurations. Generally can be left as is.
 3. `terraform/components/*.*` contains the K8s deployments of the components. Use the above links in the table to the operator documentation to see how to configure each [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
 
@@ -55,7 +53,7 @@ terraform apply
 The solution uses the same Prometheus+Grafana+Alertmanager stack for monitoring as Epiphany, only now deployed as an K8s operator. For logging, the Epiphany Opensearch stack was swapped out for [Loki](https://grafana.com/oss/loki/) as this integrates nicely with Grafana giving us one place to view both logging and monitoring. To access Grafana and Prometheus:
 
 ```shell
-#User/PW: admin/kaasbal
+# User/PW: admin/kaasbal
 kubectl port-forward svc/monitoring-prometheus-grafana 8080:80 -n observability
 kubectl port-forward svc/prometheus-operated 9090 -n observability
 ```
@@ -67,8 +65,13 @@ Out of the box, metrics and rules for all components are integrated with Prometh
 To access Opensearch Dashboard and Opensearch API:
 
 ```shell
-#User/PW: admin/admin
+# User/PW: admin/admin
 kubectl port-forward svc/opensearch-dashboards 5601 -n opensearch
+```
+
+To expose the Opensearch API:
+
+```shell
 kubectl port-forward svc/opensearch 9200 -n opensearch
 ```
 
@@ -80,10 +83,10 @@ curl --insecure -X GET "https://admin:admin@localhost:9200/_cluster/health?wait_
 
 ### Postgress
 
-To access pgAdmin:
+To access pgAdmin management dashboard:
 
 ```shell
-#User/PW: admin@admin.com/kaasbal
+# User/PW: admin@admin.com/kaasbal
 kubectl port-forward svc/pgadmin-service 8081:80 -n postgresql
 ```
 
@@ -101,13 +104,13 @@ To access the Kafka-UI dashboard:
 kubectl port-forward svc/kafka-ui-service 8082:8080 -n kafka
 ```
 
-To run a consumer on the created test topic:
+To run a consumer on the created `test-topic`:
 
 ```shell
 kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.38.0-kafka-3.6.0 --rm=true --restart=Never -- bin/kafka-console-consumer.sh --bootstrap-server svc/kafka-kafka-bootstrap:9092 --topic test-topic --from-beginning
 ```
 
-To run a producer on the created test topic:
+To run a producer on the created `test-topic`:
 
 ```shell
 kubectl -n kafka run kafka-producer -ti --image=quay.io/strimzi/kafka:0.38.0-kafka-3.6.0 --rm=true --restart=Never -- bin/kafka-console-producer.sh --bootstrap-server svc/kafka-kafka-brokers:9092 --topic test-topic

@@ -23,108 +23,111 @@ variable "k3s_cluster" {
 variable "operators" {
   description = "Operator configurations"
   type = list(object({
-    name        = string
-    namespace   = string
-    repository  = string
-    chart       = string
-    version     = string
-    values_file = string
+    enabled          = bool
+    name             = string
+    namespace        = string
+    repository       = string
+    chart            = string
+    version          = string
+    values_file      = string
+    components_files = list(string)
   }))
   default = [
     {
-      name         = "monitoring-prometheus"
-      repository   = "https://prometheus-community.github.io/helm-charts"
-      chart        = "kube-prometheus-stack"
-      namespace    = "observability"
-      version      = "52.1.0"
-      values_file  = "prometheus.yaml"
+      enabled          = true
+      name             = "monitoring-prometheus"
+      repository       = "https://prometheus-community.github.io/helm-charts"
+      chart            = "kube-prometheus-stack"
+      namespace        = "observability"
+      version          = "52.1.0"
+      values_file      = "prometheus.yaml"
+      components_files = [
+        "observability/cnpg-prometheus-rules.yaml",
+        "observability/cnpg-dashboard.yaml",
+        "observability/rabbitmq-service-monitor.yaml",
+        //"observability/rabbitmq-prometheus-rules.yaml",
+        "observability/rabbitmq-dashboard-overview.yaml",
+        "observability/kafka-prometheus-rules.yaml",
+        "observability/kafka-resources-metrics.yaml",
+        "observability/kafka-entity-operator-metrics.yaml",
+        "observability/kafka-cluster-operator-metrics.yaml",
+        "observability/kafka-dashboard.yaml"
+      ]
     },
     {
-      name         = "logging-loki"
-      repository   = "https://grafana.github.io/helm-charts"
-      chart        = "loki-stack"
-      namespace    = "observability"
-      version      = "2.9.11"
-      values_file  = "loki.yaml"
+      enabled          = true
+      name             = "logging-loki"
+      repository       = "https://grafana.github.io/helm-charts"
+      chart            = "loki-stack"
+      namespace        = "observability"
+      version          = "2.9.11"
+      values_file      = "loki.yaml"
+      components_files = [
+        "observability/loki-dashboard-monitoring.yaml",
+        "observability/loki-dashboard-k8s-logs.yaml",
+        "observability/loki-dashboard-apps-logs.yaml"
+      ]
     },
     {
-      name         = "opensearch-operator"
-      repository   = "https://opster.github.io/opensearch-k8s-operator/"
-      chart        = "opensearch-operator"
-      namespace    = "opensearch-operator"
-      version      = "2.4.0"
-      values_file  = "opensearch.yaml"
+      enabled          = true
+      name             = "opensearch-operator"
+      repository       = "https://opster.github.io/opensearch-k8s-operator/"
+      chart            = "opensearch-operator"
+      namespace        = "opensearch-operator"
+      version          = "2.4.0"
+      values_file      = "opensearch.yaml"
+      components_files = [
+        "opensearch/namespace.yaml",
+        "opensearch/cluster.yaml"
+      ]
     },
     {
-      name         = "cnpg-operator"
-      repository   = "https://cloudnative-pg.github.io/charts"
-      chart        = "cloudnative-pg"
-      namespace    = "cnpg-operator"
-      version      = "0.19.1"
-      values_file  = "cnpg.yaml"
+      enabled          = true
+      name             = "cnpg-operator"
+      repository       = "https://cloudnative-pg.github.io/charts"
+      chart            = "cloudnative-pg"
+      namespace        = "cnpg-operator"
+      version          = "0.19.1"
+      values_file      = "cnpg.yaml"
+      components_files = [
+        "postgresql/namespace.yaml",
+        "postgresql/secret.yaml",
+        "postgresql/app-secret.yaml",
+        "postgresql/cluster.yaml",
+        "postgresql/pgadmin-secret.yaml",
+        "postgresql/pgadmin-service.yaml",
+        "postgresql/pgadmin-config.yaml",
+        "postgresql/pgadmin.yaml"
+      ]
     },
     {
-      name         = "rabbitmq-operator"
-      repository   = "https://charts.bitnami.com/bitnami"
-      chart        = "rabbitmq-cluster-operator"
-      namespace    = "rabbitmq-operator"
-      version      = "3.1.0"
-      values_file  = "rabbitmq.yaml"
+      enabled          = true
+      name             = "rabbitmq-operator"
+      repository       = "https://charts.bitnami.com/bitnami"
+      chart            = "rabbitmq-cluster-operator"
+      namespace        = "rabbitmq-operator"
+      version          = "3.1.0"
+      values_file      = "rabbitmq.yaml"
+      components_files = [
+        "rabbitmq/namespace.yaml",
+        "rabbitmq/cluster.yaml"
+      ]
     },
     {
-      name         = "strimzi-operator"
-      repository   = "https://strimzi.io/charts/"
-      chart        = "strimzi-kafka-operator"
-      namespace    = "kafka"
-      version      = "0.38.0"
-      values_file  = "strimzi.yaml"
+      enabled          = true
+      name             = "strimzi-operator"
+      repository       = "https://strimzi.io/charts/"
+      chart            = "strimzi-kafka-operator"
+      namespace        = "kafka"
+      version          = "0.38.0"
+      values_file      = "strimzi.yaml"
+      components_files = [
+        "kafka/cluster.yaml",
+        "kafka/metrics.yaml",
+        "kafka/topic.yaml",
+        "kafka/kafka-ui.yaml",
+        "kafka/kafka-ui-service.yaml"
+      ]
     }
-  ]
-}
-
-# components manifests
-variable "components" {
-  description = "Component manifests"
-  type = list
-  default = [
-    # opensearch cluster
-    "opensearch/namespace.yaml",
-    "opensearch/cluster.yaml",
-
-    # postgresql cluster
-    "postgresql/namespace.yaml",
-    "postgresql/secret.yaml",
-    "postgresql/app-secret.yaml",
-    "postgresql/cluster.yaml",
-    "postgresql/pgadmin-secret.yaml",
-    "postgresql/pgadmin-service.yaml",
-    "postgresql/pgadmin-config.yaml",
-    "postgresql/pgadmin.yaml",
-
-    # rabbitmq cluster
-    "rabbitmq/namespace.yaml",
-    "rabbitmq/cluster.yaml",
-
-    # kafka cluster
-    "kafka/cluster.yaml",
-    "kafka/metrics.yaml",
-    "kafka/topic.yaml",
-    "kafka/kafka-ui.yaml",
-    "kafka/kafka-ui-service.yaml",
-
-    # Additional monitoring, alerts and dashboards for observability.
-    "observability/cnpg-prometheus-rules.yaml",
-    "observability/cnpg-dashboard.yaml",
-    "observability/loki-dashboard-monitoring.yaml",
-    "observability/loki-dashboard-k8s-logs.yaml",
-    "observability/loki-dashboard-apps-logs.yaml",
-    "observability/rabbitmq-service-monitor.yaml",
-    //"observability/rabbitmq-prometheus-rules.yaml",
-    "observability/rabbitmq-dashboard-overview.yaml",
-    "observability/kafka-prometheus-rules.yaml",
-    "observability/kafka-resources-metrics.yaml",
-    "observability/kafka-entity-operator-metrics.yaml",
-    "observability/kafka-cluster-operator-metrics.yaml",
-    "observability/kafka-dashboard.yaml"
   ]
 }
