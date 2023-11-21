@@ -34,9 +34,9 @@ Configuration is done on 3 different levels.
 
 1. `terraform/variables.tf` has 2 variable definitions with defaults which can be used for in a custom `tfvars` file and is the basis for the Terraform deployment orchistration:
     - `k3s_cluster`: describes the K3s cluster layout.
-    - `operators`: A list of Helm charts that represent the operators that will be installed. It also contains the `components_files` list per operator which contains the K8s deployment files of the component using the [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) the operator provides.
-2. `terraform/operators/*.*` contains the custom Helm configrations that can be applied the the operators. Every file contains a link to the full file of avalable configurations. Generally can be left as is.
-3. `terraform/components/*.*` contains the K8s deployments of the components. Use the above links in the table to the operator documentation to see how to configure each [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
+    - `operators`: A list of Helm charts that represent the operators that will be installed. It also contains the `component_files` list per operator which contains the K8s deployment files of the component using the [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) the operator provides.
+2. `terraform/operators/*.yaml` contains the custom Helm configrations that can be applied the the operators. Every file contains a link to the full file of avalable configurations. Generally can be left as is.
+3. `terraform/operators/*.*/*.yaml` contains the K8s deployments of the components. Use the above links in the table to the operator documentation to see how to configure each [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
 
 To deploy the `k8s-native-epi` environment run the following commands:
 
