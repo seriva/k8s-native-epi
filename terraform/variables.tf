@@ -71,7 +71,7 @@ variable "operators" {
     {
       enabled         = true
       name            = "opensearch-operator"
-      repository      = "https://github.com/opensearch-project/opensearch-k8s-operator"
+      repository      = "https://opensearch-project.github.io/opensearch-k8s-operator/"
       chart           = "opensearch-operator"
       namespace       = "opensearch-operator"
       version         = "2.4.0"
