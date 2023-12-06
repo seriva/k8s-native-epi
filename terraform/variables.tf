@@ -71,7 +71,7 @@ variable "operators" {
     {
       enabled         = true
       name            = "opensearch-operator"
-      repository      = "https://opster.github.io/opensearch-k8s-operator/"
+      repository      = "https://github.com/opensearch-project/opensearch-k8s-operator"
       chart           = "opensearch-operator"
       namespace       = "opensearch-operator"
       version         = "2.4.0"
@@ -101,7 +101,7 @@ variable "operators" {
       ]
     },
     {
-      enabled         = false
+      enabled         = true
       name            = "rabbitmq-operator"
       repository      = "https://charts.bitnami.com/bitnami"
       chart           = "rabbitmq-cluster-operator"
@@ -114,7 +114,7 @@ variable "operators" {
       ]
     },
     {
-      enabled         =  false
+      enabled         =  true
       name            = "strimzi-operator"
       repository      = "https://strimzi.io/charts/"
       chart           = "strimzi-kafka-operator"
