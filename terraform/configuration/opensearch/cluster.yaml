@@ -11,6 +11,8 @@ spec:
     enable: true
     version: 2.4.0
     replicas: 1
+    service:
+      type: NodePort
     resources:
       requests:
          memory: "512Mi"
@@ -20,7 +22,7 @@ spec:
          cpu: "200m"
   nodePools:
     - component: nodes
-      replicas: 3
+      replicas: 2
       diskSize: "5Gi"
       nodeSelector:
       resources:

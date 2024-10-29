@@ -4,10 +4,11 @@ metadata:
   name: pgadmin-service
   namespace: postgresql
 spec:
+  selector:
+    app: pgadmin
+  type: NodePort
   ports:
   - protocol: TCP
     port: 80
     targetPort: http
-  selector:
-    app: pgadmin
-  type: NodePort
+    nodePort: 30004

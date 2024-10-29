@@ -42,32 +42,23 @@ To deploy the `k8s-native-epi` environment run the following commands:
 
 ```shell
 cd terraform
-terraform init
-terraform apply
+terraform -chdir=terraform/ init
+terraform -chdir=terraform/ apply
 ```
 
-## Components
+## Dashboards
 
-### Monitoring and Logging
+All dashboard and management interfaces of the various components are exposed through nodeports:
 
-The solution uses the same Prometheus+Grafana+Alertmanager stack for monitoring as Epiphany, only now deployed as an K8s operator. For logging, the Epiphany Opensearch stack was swapped out for [Loki](https://grafana.com/oss/loki/) as this integrates nicely with Grafana giving us one place to view both logging and monitoring. To access Grafana and Prometheus:
+| Component  | URL                    | Credentials             |
+| ---------- | -----------------------|-------------------------|
+| Grafana    | http://localhost:9091/ | admin/kaasbal           |
+| Prometheus | http://localhost:9092/ | -                       |
+| Opensearch | http://localhost:9093/ | admin/admin             |
+| pgAdmin    | http://localhost:9094/ | admin@admin.com/kaasbal |
+| Kafka UI   | http://localhost:9095/ | -                       |
 
-```shell
-# User/PW: admin/kaasbal
-kubectl port-forward svc/monitoring-prometheus-grafana 8080:80 -n observability
-kubectl port-forward svc/prometheus-operated 9090 -n observability
-```
-
-Out of the box, metrics and rules for all components are integrated with Prometheus and several dashboards for K8s, node-exporter, logging, Postgresql, Kafka and RabbitMQ are included with Grafana for visualization.
-
-### Opensearch
-
-To access Opensearch Dashboard and Opensearch API:
-
-```shell
-# User/PW: admin/admin
-kubectl port-forward svc/opensearch-dashboards 5601 -n opensearch
-```
+## Opensearch
 
 To expose the Opensearch API:
 
@@ -81,39 +72,18 @@ Use the following to check the clusters health:
 curl --insecure -X GET "https://admin:admin@localhost:9200/_cluster/health?wait_for_status=yellow&timeout=50s&pretty"
 ```
 
-### Postgress
-
-To access pgAdmin management dashboard:
-
-```shell
-# User/PW: admin@admin.com/kaasbal
-kubectl port-forward svc/pgadmin-service 8081:80 -n postgresql
-```
-
-Access to database server: `kaasbal`
-
-### RabbitMQ
-
-TODO
-
-### Kafka
-
-To access the Kafka-UI dashboard:
-
-```shell
-kubectl port-forward svc/kafka-ui-service 8082:8080 -n kafka
-```
+## Kafka
 
 To run a consumer on the created `test-topic`:
 
 ```shell
-kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.38.0-kafka-3.6.0 --rm=true --restart=Never -- bin/kafka-console-consumer.sh --bootstrap-server svc/kafka-kafka-bootstrap:9092 --topic test-topic --from-beginning
+kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.43.0-kafka-3.8.0 --rm=true --restart=Never -- bin/kafka-console-consumer.sh --bootstrap-server kafka-kafka-bootstrap.kafka.svc.cluster.local:9092 --topic test-topic --from-beginning
 ```
 
 To run a producer on the created `test-topic`:
 
 ```shell
-kubectl -n kafka run kafka-producer -ti --image=quay.io/strimzi/kafka:0.38.0-kafka-3.6.0 --rm=true --restart=Never -- bin/kafka-console-producer.sh --bootstrap-server svc/kafka-kafka-brokers:9092 --topic test-topic
+kubectl -n kafka run kafka-producer -ti --image=quay.io/strimzi/kafka:0.43.0-kafka-3.8.0 --rm=true --restart=Never -- bin/kafka-console-producer.sh --bootstrap-server kafka-kafka-bootstrap.kafka.svc.cluster.local:9092 --topic test-topic
 ```
 
 Now you can add messages in the producer which should appear in the consumer. Alternatively you can also expose the broker service to publish messages to localhost:9092:
@@ -121,3 +91,11 @@ Now you can add messages in the producer which should appear in the consumer. Al
 ```shell
 kubectl port-forward svc/kafka-kafka-bootstrap 9092 -n kafka
 ```
+
+## Postgress
+
+TODO
+
+## RabbitMQ
+
+TODO

@@ -5,8 +5,8 @@ metadata:
   namespace: kafka
 spec:
   kafka:
-    version: 3.6.0
-    replicas: 3
+    version: 3.8.0
+    replicas: 2
     listeners:
       - name: plain
         port: 9092
@@ -28,7 +28,7 @@ spec:
       transaction.state.log.min.isr: 2
       default.replication.factor: 3
       min.insync.replicas: 2
-      inter.broker.protocol.version: "3.6"
+      inter.broker.protocol.version: "3.8"
     storage:
       type: jbod
       volumes:
@@ -43,7 +43,7 @@ spec:
           name: kafka-metrics
           key: kafka-metrics-config.yml
   zookeeper:
-    replicas: 3
+    replicas: 2
     readinessProbe:
       initialDelaySeconds: 15
       timeoutSeconds: 5

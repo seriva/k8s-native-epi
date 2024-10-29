@@ -1,8 +1,8 @@
+
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: cnpg-default-alerts
-  namespace: observability
 spec:
   groups:
   - name: cnp-default.rules
@@ -25,12 +25,12 @@ spec:
       for: 1m
       labels:
         severity: warning
-    - alert: PGDatabase
+    - alert: PGDatabaseXidAge
       annotations:
         description: Over 150,000,000 transactions from frozen xid on pod {{ $labels.pod  }}
         summary: Number of transactions from the frozen XID to the current one
       expr: |-
-        cnpg_pg_database_xid_age > 150000000
+        cnpg_pg_database_xid_age > 300000000
       for: 1m
       labels:
         severity: warning
@@ -52,7 +52,7 @@ spec:
       for: 1m
       labels:
         severity: warning
-    - alert: DatabaseDeadlockConflicts
+    - alert: DatabaseDeadlockConflicts 
       annotations:
         description: There are over 10 deadlock conflicts in {{ $labels.pod }}
         summary: Checks the number of database conflicts

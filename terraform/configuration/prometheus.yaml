@@ -6,6 +6,10 @@ prometheus:
     ruleSelectorNilUsesHelmValues: false
     serviceMonitorSelectorNilUsesHelmValues: false
     probeSelectorNilUsesHelmValues: false
+  service:
+    enabled: true
+    type: NodePort
+    nodePort: 30002
 
 grafana:
   adminPassword: kaasbal
@@ -19,3 +23,7 @@ grafana:
     accessModes:
       - ReadWriteOnce
     size: 1Gi
+  service:
+    enabled: true
+    type: NodePort
+    nodePort: 30001
