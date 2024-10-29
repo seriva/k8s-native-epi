@@ -19,7 +19,7 @@ The whole project uses [Terraform](https://www.terraform.io/) with several provi
 
 ## Prerequisites
 
--[Terraform](https://www.terraform.io/) 1.6.3+
+- [Terraform](https://www.terraform.io/) 1.6.3+
 - Docker, recommanded [Docker-Desktop](https://www.docker.com/products/docker-desktop/) or [Rancher-Desktop](https://rancherdesktop.io/)
 - Laptop with at least 32gb of ram to deploy the entire stack
 
