@@ -3,8 +3,8 @@ terraform {
 
   required_providers {
       k3d = {
-        source  = "moio/k3d"
-        version = "0.0.10"
+        source  = "pvotal-tech/k3d"
+        version = "0.0.7"
       }
       helm = {
         source = "hashicorp/helm"
